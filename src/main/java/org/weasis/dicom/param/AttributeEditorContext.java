@@ -15,85 +15,90 @@ import java.util.Objects;
 import java.util.Properties;
 import org.dcm4che3.img.op.MaskArea;
 import org.dcm4che3.img.util.Editable;
-import org.weasis.core.util.LangUtil;
-import org.weasis.opencv.data.PlanarImage;
+import org.weasis.core.api.util.LangUtil;
+	// TODO: uncomment later 03
+// import org.weasis.opencv.data.PlanarImage;
 
 public class AttributeEditorContext {
 
-  /** Abort status allows to skip the file transfer or abort the DICOM association */
-  public enum Abort {
-    // Do nothing
-    NONE,
-    // Allows to skip the bulk data transfer to go to the next file
-    FILE_EXCEPTION,
-    // Stop the DICOM connection. Attention, this will abort other transfers when there are several
-    // destinations for one source.
-    CONNECTION_EXCEPTION
-  }
+	/**
+	 * Abort status allows to skip the file transfer or abort the DICOM association
+	 */
+	public enum Abort {
+		// Do nothing
+		NONE,
+		// Allows to skip the bulk data transfer to go to the next file
+		FILE_EXCEPTION,
+		// Stop the DICOM connection. Attention, this will abort other transfers when
+		// there are several
+		// destinations for one source.
+		CONNECTION_EXCEPTION
+	}
 
-  private final String tsuid;
-  private final DicomNode sourceNode;
-  private final DicomNode destinationNode;
-  private final Properties properties;
+	private final String tsuid;
+	private final DicomNode sourceNode;
+	private final DicomNode destinationNode;
+	private final Properties properties;
 
-  private Abort abort;
-  private String abortMessage;
-  private MaskArea maskArea;
+	private Abort abort;
+	private String abortMessage;
+	private MaskArea maskArea;
 
-  public AttributeEditorContext(String tsuid, DicomNode sourceNode, DicomNode destinationNode) {
-    this.tsuid = tsuid;
-    this.sourceNode = sourceNode;
-    this.destinationNode = destinationNode;
-    this.abort = Abort.NONE;
-    this.properties = new Properties();
-  }
+	public AttributeEditorContext(String tsuid, DicomNode sourceNode, DicomNode destinationNode) {
+		this.tsuid = tsuid;
+		this.sourceNode = sourceNode;
+		this.destinationNode = destinationNode;
+		this.abort = Abort.NONE;
+		this.properties = new Properties();
+	}
 
-  public Abort getAbort() {
-    return abort;
-  }
+	public Abort getAbort() {
+		return abort;
+	}
 
-  public void setAbort(Abort abort) {
-    this.abort = abort;
-  }
+	public void setAbort(Abort abort) {
+		this.abort = abort;
+	}
 
-  public String getAbortMessage() {
-    return abortMessage;
-  }
+	public String getAbortMessage() {
+		return abortMessage;
+	}
 
-  public void setAbortMessage(String abortMessage) {
-    this.abortMessage = abortMessage;
-  }
+	public void setAbortMessage(String abortMessage) {
+		this.abortMessage = abortMessage;
+	}
 
-  public String getTsuid() {
-    return tsuid;
-  }
+	public String getTsuid() {
+		return tsuid;
+	}
 
-  public DicomNode getSourceNode() {
-    return sourceNode;
-  }
+	public DicomNode getSourceNode() {
+		return sourceNode;
+	}
 
-  public DicomNode getDestinationNode() {
-    return destinationNode;
-  }
+	public DicomNode getDestinationNode() {
+		return destinationNode;
+	}
 
-  public MaskArea getMaskArea() {
-    return maskArea;
-  }
+	public MaskArea getMaskArea() {
+		return maskArea;
+	}
 
-  public void setMaskArea(MaskArea maskArea) {
-    this.maskArea = maskArea;
-  }
+	public void setMaskArea(MaskArea maskArea) {
+		this.maskArea = maskArea;
+	}
 
-  public Properties getProperties() {
-    return properties;
-  }
+	public Properties getProperties() {
+		return properties;
+	}
 
-  public Editable<PlanarImage> getEditable() {
-    return getMaskedImage(getMaskArea());
-  }
+	// TODO: uncomment later 04
+	// public Editable<PlanarImage> getEditable() {
+	// 	return getMaskedImage(getMaskArea());
+	// }
 
-  public boolean hasPixelProcessing() {
-    return Objects.nonNull(getMaskArea())
-        || LangUtil.getEmptytoFalse(getProperties().getProperty("defacing"));
-  }
+	public boolean hasPixelProcessing() {
+		return Objects.nonNull(getMaskArea())
+				|| LangUtil.getEmptytoFalse(getProperties().getProperty("defacing"));
+	}
 }

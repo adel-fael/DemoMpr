@@ -16,81 +16,81 @@ import org.dcm4che3.data.ElementDictionary;
 import org.dcm4che3.util.TagUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.weasis.core.util.EscapeChars;
-import org.weasis.core.util.StringUtil;
+import org.weasis.core.api.util.EscapeChars;
+import org.weasis.core.api.util.StringUtil;
 
 public interface Xml {
-  Logger LOGGER = LoggerFactory.getLogger(Xml.class);
+	Logger LOGGER = LoggerFactory.getLogger(Xml.class);
 
-  enum Level {
-    PATIENT("Patient"), // $NON-NLS-1$
-    STUDY("Study"), // $NON-NLS-1$
-    SERIES("Series"), // $NON-NLS-1$
-    INSTANCE("Instance"), // $NON-NLS-1$
-    FRAME("Frame"); // $NON-NLS-1$
+	enum Level {
+		PATIENT("Patient"), // $NON-NLS-1$
+		STUDY("Study"), // $NON-NLS-1$
+		SERIES("Series"), // $NON-NLS-1$
+		INSTANCE("Instance"), // $NON-NLS-1$
+		FRAME("Frame"); // $NON-NLS-1$
 
-    private final String tag;
+		private final String tag;
 
-    Level(String tag) {
-      this.tag = tag;
-    }
+		Level(String tag) {
+			this.tag = tag;
+		}
 
-    public String getTagName() {
-      return tag;
-    }
+		public String getTagName() {
+			return tag;
+		}
 
-    @Override
-    public String toString() {
-      return tag;
-    }
-  }
+		@Override
+		public String toString() {
+			return tag;
+		}
+	}
 
-  void toXml(Writer result) throws IOException;
+	void toXml(Writer result) throws IOException;
 
-  static void addXmlAttribute(int tagID, String value, Writer result) throws IOException {
-    if (StringUtil.hasText(value)) {
-      String key = ElementDictionary.getStandardElementDictionary().keywordOf(tagID);
-      if (key == null) {
-        LOGGER.error("Cannot find keyword of tagID {}", TagUtils.toString(tagID));
-      } else {
-        result.append(key);
-        result.append("=\"");
-        result.append(EscapeChars.forXML(value));
-        result.append("\" ");
-      }
-    }
-  }
+	static void addXmlAttribute(int tagID, String value, Writer result) throws IOException {
+		if (StringUtil.hasText(value)) {
+			String key = ElementDictionary.getStandardElementDictionary().keywordOf(tagID);
+			if (key == null) {
+				LOGGER.error("Cannot find keyword of tagID {}", TagUtils.toString(tagID));
+			} else {
+				result.append(key);
+				result.append("=\"");
+				result.append(EscapeChars.forXML(value));
+				result.append("\" ");
+			}
+		}
+	}
 
-  static void addXmlAttribute(String tag, String value, Writer result) throws IOException {
-    if (StringUtil.hasText(tag) && StringUtil.hasText(value)) {
-      result.append(tag);
-      result.append("=\"");
-      result.append(EscapeChars.forXML(value));
-      result.append("\" ");
-    }
-  }
+	static void addXmlAttribute(String tag, String value, Writer result) throws IOException {
+		if (StringUtil.hasText(tag) && StringUtil.hasText(value)) {
+			result.append(tag);
+			result.append("=\"");
+			result.append(EscapeChars.forXML(value));
+			result.append("\" ");
+		}
+	}
 
-  static void addXmlAttribute(String tag, Boolean value, Writer result) throws IOException {
-    if (tag != null && value != null) {
-      result.append(tag);
-      result.append("=\"");
-      result.append(value.toString());
-      result.append("\" ");
-    }
-  }
+	static void addXmlAttribute(String tag, Boolean value, Writer result) throws IOException {
+		if (tag != null && value != null) {
+			result.append(tag);
+			result.append("=\"");
+			result.append(value.toString());
+			result.append("\" ");
+		}
+	}
 
-  static void addXmlAttribute(String tag, List<String> value, Writer result) throws IOException {
-    if (tag != null && value != null) {
-      result.append(tag);
-      result.append("=\"");
-      int size = value.size();
-      for (int i = 0; i < size - 1; i++) {
-        result.append(EscapeChars.forXML(value.get(i))).append(",");
-      }
-      if (size > 0) {
-        result.append(EscapeChars.forXML(value.get(size - 1)));
-      }
-      result.append("\" ");
-    }
-  }
+	static void addXmlAttribute(String tag, List<String> value, Writer result) throws IOException {
+		if (tag != null && value != null) {
+			result.append(tag);
+			result.append("=\"");
+			int size = value.size();
+			for (int i = 0; i < size - 1; i++) {
+				result.append(EscapeChars.forXML(value.get(i))).append(",");
+			}
+			if (size > 0) {
+				result.append(EscapeChars.forXML(value.get(size - 1)));
+			}
+			result.append("\" ");
+		}
+	}
 }
